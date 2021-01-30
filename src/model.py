@@ -277,9 +277,9 @@ class DA_RNN(nn.Module):
                 self.epoch_losses[epoch] = np.mean(self.iter_losses[range(
                     epoch * iter_per_epoch, (epoch + 1) * iter_per_epoch)])
 
-            if epoch % 10 == 0:
-                print("Epochs: ", epoch, " Iterations: ", n_iter,
-                      " Loss: ", self.epoch_losses[epoch])
+            #if epoch % 10 == 0:
+            print("Epochs: ", epoch, " Iterations: ", n_iter,
+                  " Loss: ", self.epoch_losses[epoch])
 
             if epoch % 10 == 0:
                 y_train_pred = self.test(on_train=True)

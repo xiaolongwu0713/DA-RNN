@@ -13,7 +13,7 @@ References:
 
 import numpy as np
 import pandas as pd
-
+import scipy.io
 
 def read_data(input_path, debug=True):
     """
@@ -27,8 +27,20 @@ def read_data(input_path, debug=True):
         y (np.ndarray): ground truth.
 
     """
-    df = pd.read_csv(input_path, nrows=250 if debug else None)
-    X = df.loc[:, [x for x in df.columns.tolist() if x != 'NDX']].to_numpy()
-    y = np.array(df.NDX)
+    #df = pd.read_csv(input_path, nrows=250 if debug else None)
+    #X = df.loc[:, [x for x in df.columns.tolist() if x != 'NDX']].to_numpy()
+    #y = np.array(df.NDX)
+
+    ######
+    datafile1 = '/Users/long/Documents/BCI/matlab_scripts/force/pls/move4TrainData.mat'
+    datafile2 = '/Users/long/Documents/BCI/matlab_scripts/force/pls/move4TestData.mat'
+    raw1 = scipy.io.loadmat(datafile1)
+    raw2 = scipy.io.loadmat(datafile2)
+    train = raw1['train']  # (6299, 115)
+    test = raw2['test']  # (2699, 115)
+    tmp = np.concatenate((train, test), 0)  # (8998, 115)
+    X = tmp[:, 0:-1]  # ([8998, 114])
+    y = tmp[:, -1]  # ([8998])
+
 
     return X, y
